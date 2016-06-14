@@ -7,5 +7,10 @@ module.exports = {
     this._super.included(app);
 
     app.import(app.bowerDirectory + '/moment-business/dist/moment-business.js');
+    app.import('vendor/business.js', {
+      exports: {
+        Business: ['default']
+      }
+    });
   }
 };
