@@ -30,7 +30,7 @@ var fiftyWeekDaysIntoTheFuture = business.addWeekDays(moment(), 50);
 
 ## API
 
-Th public API is the same as https://github.com/jmeas/moment-business#api
+The public API is the same as https://github.com/jmeas/moment-business#api
 
 ## Author
 
