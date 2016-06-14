@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-moment-business",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Ember CLI wrapper for moment-business",
   "directories": {
     "doc": "doc",
