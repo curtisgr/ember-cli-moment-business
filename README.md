@@ -1,26 +1,27 @@
 # Ember-cli-moment-business
 
-This README outlines the details of collaborating on this Ember addon.
+This is an ember cli addon that exposes some useful functions for dealing with weekdays and weekend days. The underlying code is based largely on https://github.com/jmeas/moment-business.
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+```
+ember install Ember-cli-moment-business
+```
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+```
+import * as MomentBusiness from 'ember-cli-moment-business';
 
-## Running Tests
+// OR
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+import { weekDays, weekendDays, addWeekDays, subtractWeekDays, isWeekDay, isWeekendDay } from 'ember-cli-moment-business';
+```
 
-## Building
+## API
 
-* `ember build`
+The api is the same as https://github.com/jmeas/moment-business#api
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+## Author
+
+Greg Curtis. I build legal software using ember for https://www.casefleet.com/.

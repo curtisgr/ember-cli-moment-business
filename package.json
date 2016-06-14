@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-moment-business",
-  "version": "0.0.10",
-  "description": "An ember cli version of moment-business",
+  "version": "1.0.0",
+  "description": "An ember cli addon for working with moment, weekdays, and weekends",
   "directories": {
     "doc": "doc",
     "test": "tests"
