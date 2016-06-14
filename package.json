@@ -11,7 +11,10 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curtisgr/ember-cli-moment-business.git"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -40,7 +43,8 @@
     "loader.js": "^4.0.1"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "moment-business"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6"
