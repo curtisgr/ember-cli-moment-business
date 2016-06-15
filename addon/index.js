@@ -143,3 +143,11 @@ export function isWeekDay (moment) {
 export function isWeekendDay (moment) {
   return moment.isoWeekday() > 5;
 };
+
+export function isSaturday (moment) {
+  return moment.isoWeekday() === 6;
+};
+
+export function isSunday (moment) {
+  return moment.isoWeekday() === 7;
+};
