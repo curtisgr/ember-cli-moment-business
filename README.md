@@ -48,4 +48,4 @@ var isSunday = business.isSunday(moment()); // true if Sunday
 
 ## Author
 
-My name is Greg Curtis. I am a javascript developer working for https://www.casefleet.com/.
+My name is Greg Curtis. I am a javascript developer working for https://www.casefleet.com/. We're using this addon to build a [legal calendaring](https://www.casefleet.com/deadline-tracking-with-legal-calendar) feature.
