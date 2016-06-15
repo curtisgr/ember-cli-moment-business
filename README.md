@@ -21,7 +21,9 @@ import {
   addWeekDays,
   subtractWeekDays,
   isWeekDay,
-  isWeekendDay } from 'ember-cli-moment-business';
+  isWeekendDay,
+  isSaturday,
+  isSunday } from 'ember-cli-moment-business';
 ```
 
 ```
@@ -32,13 +34,17 @@ var fiftyWeekDaysIntoTheFuture = business.addWeekDays(moment(), 50);
 
 The public API is the same as https://github.com/jmeas/moment-business#api with two additions:
 
-### isSaturday(moment)
+#### isSaturday (moment)
 
-true if moment is Saturday
+```
+var isSaturday = business.isSaturday(moment()); // true if Saturday
+```
 
-### isSunday(moment)
+#### isSunday (moment)
 
-true if moment is Sunday
+```
+var isSunday = business.isSunday(moment()); // true if Sunday
+```
 
 ## Author
 
