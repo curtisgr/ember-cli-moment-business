@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-moment-business",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "An Ember CLI addon for handling weekdays and weekends in moment.js",
   "directories": {
     "doc": "doc",

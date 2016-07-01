@@ -1,153 +1,160 @@
-function determineSign(x) {
-  x = +x;
-  return x > 0 ? 1 : -1;
+// https://www.opm.gov/policy-data-oversight/snow-dismissal-procedures/federal-holidays
+
+export const federalHolidays = [
+  {
+    date: '2016-07-04',
+    name: 'Independence Day'
+  },
+  {
+    date: '2016-09-05',
+    name: 'Labor Day'
+  },
+  {
+    date: '2016-10-10',
+    name: 'Columbus Day'
+  },
+  {
+    date: '2016-11-11',
+    name: 'Veterans Day'
+  },
+  {
+    date: '2016-11-24',
+    name: 'Thanksgiving Day'
+  },
+  {
+    date: '2016-12-26',
+    name: 'Christmas Day',
+    notes: 'December 25, 2016 (the legal public holiday for Christmas Day), falls on a Sunday. For most Federal employees, Monday, December 26, will be treated as a holiday for pay and leave purposes. (See section 3(a) of Executive order 11582, February 11, 1971.)'
+  },
+  {
+    date: '2017-01-02',
+    name: 'New Year\'s Day',
+    notes: 'January 1, 2017 (the legal public holiday for New Year’s Day), falls on a Sunday. For most Federal employees, Monday, January 2, will be treated as a holiday for pay and leave purposes. (See section 3(a) of Executive order 11582, February 11, 1971.)'
+  },
+  {
+    date: '2017-01-16',
+    name: 'Birthday of Martin Luther King, Jr.'
+  },
+  {
+    date: '2017-02-20',
+    name: 'Washington’s Birthday'
+  },
+  {
+    date: '2017-05-29',
+    name: 'Memorial Day'
+  },
+  {
+    date: '2017-07-04',
+    name: 'Independence Day'
+  },
+  {
+    date: '2017-09-04',
+    name: 'Labor Day'
+  },
+  {
+    date: '2017-10-09',
+    name: 'Columbus Day'
+  },
+  {
+    date: '2017-11-10',
+    name: 'Veterans Day',
+    notes: 'November 11, 2017 (the legal public holiday for Veterans Day), falls on a Saturday. For most Federal employees, Friday, November 10, will be treated as a holiday for pay and leave purposes. (See 5 U.S.C. 6103(b).)'
+  },
+  {
+    date: '2017-11-23',
+    name: 'Thanksgiving Day'
+  },
+  {
+    date: '2017-12-25',
+    name: 'Christmas Day'
+  },
+];
+
+export function getWeekendDays (start, end) {
+  let total = end.diff(start, 'days');
+  let day = start.day();
+  let count = 0;
+
+  while (total > 0) {
+    if (day === 0 || day === 6) {
+      count++;
+    }
+
+    day = (day + 1) % 7;
+
+    total--;
+  }
+
+  return count;
 }
 
-function nearestPeriodicValue (point, value, period) {
-  // Adjust our value by an amount given by the closest #
-  // of periods contained in the distance between the point
-  // and the value
-  return value - period * Math.round((value - point) / period);
-};
+export function getWeekDays (start, end) {
+  return end.diff(start, 'days') - this.getWeekendDays(start, end);
+}
 
-function containedPeriodicValues (start, end, value, period) {
-  // Inclusive start; exclusive end
-  if (start === end) {
-    return 0;
+export function addWeekDays (start, amount) {
+  let day = start.day();
+  let count = 0;
+
+  while (amount > 0) {
+    day = (day + 1) % 7;
+
+    if (day !== 0 && day !== 6) {
+      amount--;
+    }
+
+    count++;
   }
 
-  // Flip our interval if it isn't ordered properly
-  if (start > end) {
-    var newEnd = start;
-    start = end;
-    end = newEnd;
+  start.add(count, 'days');
+
+  return start;
+}
+
+export function subtractWeekDays (start, amount) {
+  let day = start.day();
+  let count = 0;
+
+  while (amount > 0) {
+    day = day === 0 ? (day + 6) % 7 : (day - 1) % 7;
+
+    if (day !== 0 && day !== 6) {
+      amount--;
+    }
+
+    count++;
   }
 
-  // Make our interval have an exclusive end
-  end--;
+  start.subtract(count, 'days');
 
-  var nearest = nearestPeriodicValue(start, value, period);
+  return start;
+}
 
-  // Ensure that the nearest value is in front of the start
-  // of the interval
-  if (nearest - start < 0) {
-    nearest += period;
-  }
-
-  // If we can't even reach the first value, then it is 0
-  if (nearest - start > end - start) {
-    return 0;
-  }
-
-  // Otherwise, we have reached it, so we start with 1.
-  // Then we add one for every full period in our interval
-  else {
-    return 1 + parseInt((end - nearest) / period);
-  }
-};
-
-function skippedPeriodicValues (start, distance, value, period) {
-  var nearest = nearestPeriodicValue(start, value, period);
-
-  // Make the algorithm inclusive. If the distance is 0 and we're
-  // on the nearest value, then we don't count it.
-  if (nearest === start && distance === 0) {
-    return 0;
-  }
-
-  // If our nearest value is behind the start, or is the start,
-  // then push it to the next value
-  if (nearest - start < 0) {
-    nearest = nearest + period;
-  }
-
-  // No values were skipped if the nearest is shorter than the distance
-  if (nearest - start > distance) {
-    return 0;
-  } else {
-    // Determine how many 'skipped intervals' there were. Skipped intervals can be
-    // thought of a period-1 function, as they do not contribute to the total value.
-    return 1 + parseInt((distance - nearest) / (period - 1));
-  }
-};
-
-export function weekDays (startMoment, endMoment) {
-  var start = undefined,
-      end = undefined;
-  var reverse = endMoment.isBefore(startMoment);
-  if (reverse) {
-    start = endMoment;
-    end = startMoment;
-  } else {
-    start = startMoment;
-    end = endMoment;
-  }
-
-  var startDay = start.day();
-  var totalDays = Math.abs(end.diff(start, "days"));
-  var containedSundays = containedPeriodicValues(startDay, totalDays + startDay, 0, 7);
-  var containedSaturdays = containedPeriodicValues(startDay, totalDays + startDay, 6, 7);
-  var coefficient = reverse ? -1 : 1;
-
-  return coefficient * (totalDays - (containedSaturdays + containedSundays));
-};
-
-export function weekendDays (startMoment, endMoment) {
-  var totalDaysDiff = endMoment.diff(startMoment, "days");
-  var weekDays = this.weekDays(startMoment, endMoment);
-
-  return totalDaysDiff - weekDays;
-};
-
-export function addWeekDays (moment, amount) {
-  if (amount === 0 || isNaN(amount)) {
-    return moment;
-  }
-
-  var sign = determineSign(amount);
-  var day = moment.day();
-  var absIncrement = Math.abs(amount);
-
-  var days = 0;
-
-  if (day === 0 && sign === -1) {
-    days = 1;
-  } else if (day === 6 && sign === 1) {
-    days = 1;
-  }
-
-  // Add padding for weekends.
-  var paddedAbsIncrement = absIncrement;
-  if (day !== 0 && day !== 6 && sign > 0) {
-    paddedAbsIncrement += day;
-  } else if (day !== 0 && day !== 6 && sign < 0) {
-    paddedAbsIncrement += 6 - day;
-  }
-  var weekendsInbetween = Math.max(Math.floor(paddedAbsIncrement / 5) - 1, 0) + (paddedAbsIncrement > 5 && paddedAbsIncrement % 5 > 0 ? 1 : 0);
-
-  // Add the increment and number of weekends.
-  days += absIncrement + weekendsInbetween * 2;
-
-  moment.add(sign * days, "days");
-  return moment;
-};
-
-export function subtractWeekDays (moment, amount) {
-  return this.addWeekDays(moment, -amount);
-};
 
 export function isWeekDay (moment) {
   return moment.isoWeekday() < 6;
-};
+}
 
 export function isWeekendDay (moment) {
   return moment.isoWeekday() > 5;
-};
+}
 
 export function isSaturday (moment) {
   return moment.isoWeekday() === 6;
-};
+}
 
 export function isSunday (moment) {
   return moment.isoWeekday() === 7;
-};
+}
+
+export function isFederalHoliday (moment) {
+  let isFederalHoliday = false;
+
+  federalHolidays.forEach( (holiday) => {
+    if (moment.format('YYYY-MM-DD') === holiday.date) {
+      isFederalHoliday = true;
+    }
+  });
+
+  return isFederalHoliday;
+}
